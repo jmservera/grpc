@@ -1,0 +1,16 @@
+{
+  "profiles": {
+    "GreeterClient": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker",
+      "environmentVariables": {
+        "GRPCSERVER": "localhost:30051",
+        "no_proxy": "localhost,127.0.0.1",
+        "NO_PROXY": "localhost,127.0.0.1"
+      },
+      "DockerfileRunArguments": "--net host"
+    }
+  }
+}

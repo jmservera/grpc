@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: greeter-server
+  name: greeter-server
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: greeter-server
+  template:
+    metadata:
+      annotations:
+        linkerd.io/inject: enabled
+      labels:
+        app: greeter-server
+    spec:
+      containers:
+      - image: jmaks.azurecr.io/greeterserver:latest
+        name: greeter-server
+        ports:
+        - containerPort: 30051
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    linkerd.io/inject: enabled
+  labels:
+    run: greeter-client
+  name: greeter-client
+spec:
+  containers:
+  - env:
+    - name: GRPCSERVER
+      value: greeter-server:30051
+    image: jmaks.azurecr.io/greeterclient:latest
+    name: greeter-client
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: greeter-server
+  name: greeter-server
+spec:
+  ports:
+  - port: 30051
+    protocol: TCP
+    targetPort: 30051
+  selector:
+    app: greeter-server
+---
