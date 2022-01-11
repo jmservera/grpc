@@ -33,7 +33,7 @@ Once you have the containers uploaded to the CR, modify the deployment.yaml file
 Once all the deployment is up and running you can check the logs of the client:
 
 ```bash
-kubectl logs pod/greeter-client -n greeter
+kubectl logs pod/greeter-client greeter-client -n greeter -f
 ```
 
 LOAD BALANCING
@@ -44,7 +44,7 @@ When you deploy this service to an [AKS][AKS] cluster and test it you will notic
 To enable load balancing you will need to add a Service Mesh like [Linkerd][linkerd]. The [deployment][deployment] file already contains the annotations to add the Linkerd sidecar proxies to your containers, so you only need to follow the [install guide][linkerdinstall] provided by Linkerd, and then redeploy the service:
 
 ```bash
-kubectl delete -f deployment.yaml & kubectl apply -f deployment.yaml
+kubectl delete -f deployment.yaml ; kubectl apply -f deployment.yaml
 ```
 
 
