@@ -1,9 +1,15 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: greeter
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
     app: greeter-server
   name: greeter-server
+  namespace: greeter
 spec:
   replicas: 5
   selector:
@@ -30,6 +36,7 @@ metadata:
   labels:
     run: greeter-client
   name: greeter-client
+  namespace: greeter
 spec:
   containers:
   - env:
@@ -46,6 +53,7 @@ metadata:
   labels:
     app: greeter-server
   name: greeter-server
+  namespace: greeter
 spec:
   ports:
   - port: 30051
